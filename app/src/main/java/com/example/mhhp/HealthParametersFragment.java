@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class HealthParametersFragment extends Fragment {
 
-    private EditText weightInput, heightInput, bloodPressureInput, pulseInput;
+    private EditText weightInput, bloodPressureInput, pulseInput;
     private Button saveButton, clearDataButton;
     private DatabaseHelper databaseHelper;
 
@@ -23,7 +23,6 @@ public class HealthParametersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_health_parameters, container, false);
 
         weightInput = view.findViewById(R.id.weightInput);
-        heightInput = view.findViewById(R.id.heightInput);
         bloodPressureInput = view.findViewById(R.id.bloodPressureInput);
         pulseInput = view.findViewById(R.id.pulseInput);
         saveButton = view.findViewById(R.id.saveButton);
@@ -49,18 +48,43 @@ public class HealthParametersFragment extends Fragment {
     }
 
     private void saveHealthData() {
-        double weight = Double.parseDouble(weightInput.getText().toString());
-        double height = Double.parseDouble(heightInput.getText().toString());
-        String bloodPressure = bloodPressureInput.getText().toString();
-        String pulse = pulseInput.getText().toString();
+        String weightStr = weightInput.getText().toString();
+        String bloodPressureStr = bloodPressureInput.getText().toString();
+        String pulseStr = pulseInput.getText().toString();
 
-        boolean isInserted = databaseHelper.addHealthData(weight, height, bloodPressure, pulse);
-        if (isInserted) {
-            Toast.makeText(getActivity(), "Health data saved", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(), "Failed to save health data", Toast.LENGTH_SHORT).show();
+        if (weightStr.isEmpty() || bloodPressureStr.isEmpty() || pulseStr.isEmpty()) {
+            Toast.makeText(getActivity(), "Please enter all parameters", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            double weight = Double.parseDouble(weightStr);
+
+            // Проверка корректности формата давления
+            String[] bloodPressureParts = bloodPressureStr.split("/");
+            if (bloodPressureParts.length != 2) {
+                throw new NumberFormatException("Invalid blood pressure format");
+            }
+            int systolic = Integer.parseInt(bloodPressureParts[0]);
+            int diastolic = Integer.parseInt(bloodPressureParts[1]);
+            String bloodPressure = systolic + "/" + diastolic;
+
+            // Проверка корректности формата пульса
+            int pulse = Integer.parseInt(pulseStr);
+
+            boolean isInserted = databaseHelper.addHealthData(weight, bloodPressure, String.valueOf(pulse));
+            if (isInserted) {
+                Toast.makeText(getActivity(), "Health data saved", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Failed to save health data", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(getActivity(), "Please enter valid numbers", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
     private void clearHealthData() {
         databaseHelper.clearDatabase();

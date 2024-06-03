@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
 
-    private TextView greetingTextView, averageWeightTextView, averageBloodPressureTextView;
+    private TextView greetingTextView, averageWeightTextView, averageBloodPressureTextView, averagePulseTextView;
     private DatabaseHelper databaseHelper;
 
     @Nullable
@@ -24,6 +24,7 @@ public class HomeFragment extends Fragment {
         greetingTextView = view.findViewById(R.id.greetingTextView);
         averageWeightTextView = view.findViewById(R.id.averageWeightTextView);
         averageBloodPressureTextView = view.findViewById(R.id.averageBloodPressureTextView);
+        averagePulseTextView = view.findViewById(R.id.averagePulseTextView);
         databaseHelper = new DatabaseHelper(getActivity());
 
         // Загрузка имени и отчества пользователя из SharedPreferences
@@ -35,9 +36,11 @@ public class HomeFragment extends Fragment {
         // Вычисление и отображение средних показателей
         double averageWeight = databaseHelper.getAverageWeight();
         String averageBloodPressure = databaseHelper.getAverageBloodPressure();
+        double averagePulse = databaseHelper.getAveragePulse();
 
         averageWeightTextView.setText("Average Weight: " + averageWeight);
         averageBloodPressureTextView.setText("Average Blood Pressure: " + averageBloodPressure);
+        averagePulseTextView.setText("Average Pulse: " + averagePulse);
 
         return view;
     }

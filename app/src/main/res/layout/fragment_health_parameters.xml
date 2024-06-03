@@ -12,12 +12,6 @@
         android:hint="Weight" />
 
     <EditText
-        android:id="@+id/heightInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Height" />
-
-    <EditText
         android:id="@+id/bloodPressureInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
