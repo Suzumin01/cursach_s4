@@ -15,7 +15,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "health_data";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_WEIGHT = "weight";
-    public static final String COLUMN_HEIGHT = "height";
     public static final String COLUMN_BLOOD_PRESSURE = "blood_pressure";
     public static final String COLUMN_PULSE = "pulse";
 
@@ -28,7 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_WEIGHT + " REAL, " +
-                COLUMN_HEIGHT + " REAL, " +
                 COLUMN_BLOOD_PRESSURE + " TEXT, " +
                 COLUMN_PULSE + " TEXT)";
 
@@ -41,11 +39,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addHealthData(double weight, double height, String bloodPressure, String pulse) {
+    public boolean addHealthData(double weight, String bloodPressure, String pulse) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_WEIGHT, weight);
-        values.put(COLUMN_HEIGHT, height);
         values.put(COLUMN_BLOOD_PRESSURE, bloodPressure);
         values.put(COLUMN_PULSE, pulse);
         long result = db.insert(TABLE_NAME, null, values);
@@ -89,6 +86,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return averageSystolic + "/" + averageDiastolic;
     }
+
+    public double getAveragePulse() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT AVG(" + COLUMN_PULSE + ") FROM " + TABLE_NAME, null);
+        double averagePulse = 0;
+        if (cursor.moveToFirst()) {
+            averagePulse = cursor.getDouble(0);
+        }
+        cursor.close();
+        // Округляем до одного знака после запятой
+        return Math.round(averagePulse * 10.0) / 10.0;
+    }
+
     public void clearDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
