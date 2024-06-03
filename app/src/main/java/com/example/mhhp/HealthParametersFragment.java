@@ -14,7 +14,8 @@ import android.widget.Toast;
 public class HealthParametersFragment extends Fragment {
 
     private EditText weightInput, heightInput, bloodPressureInput, pulseInput;
-    private Button saveButton;
+    private Button saveButton, clearDataButton;
+    private DatabaseHelper databaseHelper;
 
     @Nullable
     @Override
@@ -26,6 +27,9 @@ public class HealthParametersFragment extends Fragment {
         bloodPressureInput = view.findViewById(R.id.bloodPressureInput);
         pulseInput = view.findViewById(R.id.pulseInput);
         saveButton = view.findViewById(R.id.saveButton);
+        clearDataButton = view.findViewById(R.id.clearDataButton);
+
+        databaseHelper = new DatabaseHelper(getActivity());
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,17 +38,32 @@ public class HealthParametersFragment extends Fragment {
             }
         });
 
+        clearDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearHealthData();
+            }
+        });
+
         return view;
     }
 
     private void saveHealthData() {
-        String weight = weightInput.getText().toString();
-        String height = heightInput.getText().toString();
+        double weight = Double.parseDouble(weightInput.getText().toString());
+        double height = Double.parseDouble(heightInput.getText().toString());
         String bloodPressure = bloodPressureInput.getText().toString();
         String pulse = pulseInput.getText().toString();
 
-        // Здесь вы можете добавить код для сохранения данных в базу данных
+        boolean isInserted = databaseHelper.addHealthData(weight, height, bloodPressure, pulse);
+        if (isInserted) {
+            Toast.makeText(getActivity(), "Health data saved", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Failed to save health data", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        Toast.makeText(getActivity(), "Health data saved", Toast.LENGTH_SHORT).show();
+    private void clearHealthData() {
+        databaseHelper.clearDatabase();
+        Toast.makeText(getActivity(), "All health data cleared", Toast.LENGTH_SHORT).show();
     }
 }
