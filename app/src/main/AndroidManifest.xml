@@ -16,19 +16,26 @@
         android:theme="@style/Theme.MHHP"
         tools:targetApi="31">
         <activity
+            android:name=".ViewDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NotificationReceiver" android:exported="false"/>
-
-        <receiver android:name=".BootReceiver" android:exported="false">
+        <receiver
+            android:name=".NotificationReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>
