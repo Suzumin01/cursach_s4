@@ -21,7 +21,6 @@
         android:text="Average Weight: "
         android:textSize="18sp"
         android:layout_below="@id/greetingTextView"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
 
     <TextView
@@ -31,7 +30,6 @@
         android:text="Average Blood Pressure: "
         android:textSize="18sp"
         android:layout_below="@id/averageWeightTextView"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
 
     <TextView
@@ -41,8 +39,28 @@
         android:text="Average Pulse: "
         android:textSize="18sp"
         android:layout_below="@id/averageBloodPressureTextView"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/weightChart"
+        android:layout_width="395dp"
+        android:layout_height="437dp"
+        android:layout_below="@id/GraficTitle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="23dp" />
+
+    <TextView
+        android:id="@+id/GraficTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_below="@id/averagePulseTextView"
+        android:layout_marginTop="62dp"
+        android:text="Weight over time"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
 

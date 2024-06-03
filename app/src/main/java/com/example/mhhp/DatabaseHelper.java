@@ -111,5 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
     }
-
+    public String getTimestampColumnName() {
+        return COLUMN_TIMESTAMP;
+    }
 }

@@ -7,7 +7,7 @@
     <item
         android:id="@+id/nav_health_parameters"
         android:icon="@drawable/ic_health"
-        android:title="My health parameters" />
+        android:title="Parameter input" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_profile"
