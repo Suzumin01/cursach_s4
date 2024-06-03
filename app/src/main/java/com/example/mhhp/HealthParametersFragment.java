@@ -1,5 +1,6 @@
 package com.example.mhhp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 public class HealthParametersFragment extends Fragment {
 
     private EditText weightInput, bloodPressureInput, pulseInput;
-    private Button saveButton, clearDataButton;
+    private Button saveButton, clearDataButton, viewDataButton;
     private DatabaseHelper databaseHelper;
 
     @Nullable
@@ -27,6 +28,7 @@ public class HealthParametersFragment extends Fragment {
         pulseInput = view.findViewById(R.id.pulseInput);
         saveButton = view.findViewById(R.id.saveButton);
         clearDataButton = view.findViewById(R.id.clearDataButton);
+        viewDataButton = view.findViewById(R.id.viewDataButton);
 
         databaseHelper = new DatabaseHelper(getActivity());
 
@@ -41,6 +43,14 @@ public class HealthParametersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 clearHealthData();
+            }
+        });
+
+        viewDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ViewDataActivity.class);
+                startActivity(intent);
             }
         });
 
