@@ -1,9 +1,11 @@
 package com.example.mhhp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,7 @@ public class HealthParametersFragment extends Fragment {
         clearDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearHealthData();
+                showClearDataConfirmationDialog();
             }
         });
 
@@ -93,7 +95,19 @@ public class HealthParametersFragment extends Fragment {
         }
     }
 
-
+    private void showClearDataConfirmationDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Clear Data")
+                .setMessage("Are you sure you want to clear all health data?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearHealthData();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 
 
     private void clearHealthData() {

@@ -9,7 +9,7 @@
         android:id="@+id/weightInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Weight" />
+        android:hint="Weight (kg)" />
 
     <EditText
         android:id="@+id/bloodPressureInput"
